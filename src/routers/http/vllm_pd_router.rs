@@ -778,10 +778,6 @@ impl VllmPDRouter {
         // NOTE: only READ-mode (sequential prefill-then-decode) scheduling is
         // currently supported.  MoRIIO WRITE mode requires a concurrent flow and
         // is not yet implemented here.
-        let decode_http = decode_worker
-            .base_url()
-            .replace("http://", "")
-            .replace("https://", "");
         prefill_request["kv_transfer_params"] =
             Self::build_prefill_kv_transfer_params(&decode_zmq_addr);
 
