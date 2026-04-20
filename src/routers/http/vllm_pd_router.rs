@@ -917,10 +917,6 @@ impl VllmPDRouter {
         // Stage 1: Prepare prefill request with max_tokens=1 and kv_transfer_params
         let mut prefill_request = Self::prepare_prefill_request(original_request.clone(), path);
 
-        // NOTE: only READ-mode (sequential prefill-then-decode) scheduling is
-        // currently supported.  MoRI-IO WRITE mode requires a concurrent flow and
-        // is not yet implemented here.
-
         // Generate a connector-specific transfer_id (None for NIXL)
         let transfer_id = self.generate_transfer_id();
 
