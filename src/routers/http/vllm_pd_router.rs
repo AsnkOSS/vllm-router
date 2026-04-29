@@ -185,6 +185,8 @@ impl VllmPDRouter {
                         "remote_engine_id": serde_json::Value::Null,
                         "remote_block_ids": serde_json::Value::Null,
                         "remote_dp_size": self.intra_node_data_parallel_size,
+                        // remote_tp_size is not yet consumed by the vLLM MoRI-IO connector;
+                        // hardcoded to 1 until https://github.com/vllm-project/vllm/issues/41211 is resolved.
                         "remote_tp_size": 1,
                         "transfer_id": transfer_id.unwrap_or(""),
                     })
@@ -250,6 +252,8 @@ impl VllmPDRouter {
                         "remote_block_ids": serde_json::Value::Null,
                         "transfer_id": transfer_id.unwrap_or(""),
                         "remote_dp_size": self.intra_node_data_parallel_size,
+                        // remote_tp_size is not yet consumed by the vLLM MoRI-IO connector;
+                        // hardcoded to 1 until https://github.com/vllm-project/vllm/issues/41211 is resolved.
                         "remote_tp_size": 1,
                     });
                     if self.intra_node_data_parallel_size > 1 {
@@ -2482,6 +2486,8 @@ mod tests {
             "remote_engine_id": serde_json::Value::Null,
             "remote_block_ids": serde_json::Value::Null,
             "remote_dp_size": dp_size,
+            // remote_tp_size is not yet consumed by the vLLM MoRI-IO connector;
+            // hardcoded to 1 until https://github.com/vllm-project/vllm/issues/41211 is resolved.
             "remote_tp_size": 1,
             "transfer_id": transfer_id.unwrap_or(""),
         })
@@ -2500,6 +2506,8 @@ mod tests {
             "remote_block_ids": serde_json::Value::Null,
             "transfer_id": transfer_id.unwrap_or(""),
             "remote_dp_size": dp_size,
+            // remote_tp_size is not yet consumed by the vLLM MoRI-IO connector;
+            // hardcoded to 1 until https://github.com/vllm-project/vllm/issues/41211 is resolved.
             "remote_tp_size": 1,
         });
         if dp_size > 1 {
