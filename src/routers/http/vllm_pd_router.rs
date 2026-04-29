@@ -215,7 +215,7 @@ impl VllmPDRouter {
 
     /// Build decode kv_transfer_params for all connectors. Returns `None` if params cannot be
     /// determined (e.g. Mooncake bootstrap info missing, or no kv_transfer_params in prefill response).
-    async fn build_decode_kv_params(
+    async fn build_decode_kv_transfer_params(
         &self,
         prefill_url: &str,
         prefill_response_json: Option<&Value>,
@@ -749,7 +749,7 @@ impl VllmPDRouter {
         let mut decode_request = request_json.clone();
         let prefill_url_key = format!("http://{}", prefill_base_http);
         if let Some(params) = self
-            .build_decode_kv_params(
+            .build_decode_kv_transfer_params(
                 &prefill_url_key,
                 prefill_response_json.as_ref(),
                 transfer_id.as_deref(),
@@ -1232,7 +1232,7 @@ impl VllmPDRouter {
         // (moriio_write_prefill_request carries the prefill body for WRITE mode join below)
         let mut decode_request = original_request.clone();
         if let Some(params) = self
-            .build_decode_kv_params(
+            .build_decode_kv_transfer_params(
                 &prefill_base_url,
                 prefill_response_json.as_ref(),
                 transfer_id.as_deref(),
