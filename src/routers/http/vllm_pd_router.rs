@@ -144,12 +144,12 @@ impl VllmPDRouter {
         ))
     }
 
-    /// Generate a connector-specific transfer ID for correlating prefill and decode legs.
     /// Returns the MoRI-IO transfer mode if it has been set by a registration, or `None`.
     fn moriio_transfer_mode(&self) -> Option<MoriIOTransferMode> {
         self.service_registry.moriio_transfer_mode.get().copied()
     }
 
+    /// Generate a connector-specific transfer ID for correlating prefill and decode legs.
     /// Returns `None` for connectors that do not use a transfer_id (e.g. NIXL).
     fn generate_transfer_id(&self) -> Option<String> {
         match self.kv_connector {
