@@ -1025,6 +1025,8 @@ impl VllmPDRouter {
             let (prefill_result, decode_result) = tokio::join!(prefill_fut, decode_fut);
             let write_prefill_response_json: Option<Value> = match prefill_result {
                 Err(prefill_err) => {
+                    self.stop_profiling(&format!("http://{}", decode_base_http))
+                        .await;
                     let duration = start_time.elapsed();
                     RouterMetrics::record_pd_prefill_error(prefill_http);
                     RouterMetrics::record_pd_request(path);
