@@ -950,14 +950,22 @@ impl VllmPDRouter {
             let profiling_tasks = &self.profiling_tasks;
             let pd_router = &self.pd_router;
             let prefill_fut = async move {
-                let result = build_prefill_request_builder(
-                    http_client,
-                    &prefill_request_url,
-                    &request_id,
-                    prefill_dp_rank,
+                let result = otel_http::send_client_request(
+                    build_prefill_request_builder(
+                        http_client,
+                        &prefill_request_url,
+                        &request_id,
+                        prefill_dp_rank,
+                    )
+                    .body(prefill_request_str),
+                    headers,
+                    ClientRequestOptions {
+                        method: "POST",
+                        url: &prefill_request_url,
+                        route: Some(path),
+                        request_phase: Some("prefill"),
+                    },
                 )
-                .body(prefill_request_str)
-                .send()
                 .await;
                 if enable_profiling {
                     let worker_url = format!("http://{}", prefill_base_http);
